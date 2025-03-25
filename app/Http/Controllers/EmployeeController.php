@@ -1,18 +1,26 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use App\Models\Employee;
 
 class EmployeeController extends Controller
 {
-    // tampilkan data
+    
     public function index()
     {
-        return response()->json(Employee::all());
+        $employees = Employee::all();
+        return view('employees.index', compact('employees'));
     }
 
-    // store penyimpanan data employee
+    
+    public function create()
+    {
+        return view('employees.create');
+    }
+
+    
     public function store(Request $request)
     {
         $request->validate([
@@ -20,34 +28,23 @@ class EmployeeController extends Controller
             'age' => 'required|integer',
             'position' => 'required|string|max:100',
             'salary' => 'required|numeric|min:0'
-    ]);
+        ]);
 
-    $employee = Employee::create([
-        'name_employee' => $request->name_employee,
-        'age' => $request->age,
-        'position' => $request->position,
-        'salary' => $request->salary,
+        Employee::create($request->all());
 
-    ]);
-
-    return response()->json([
-        'Message' => 'Employee data saved successfully',
-        'Employee' => $employee
-    ], 201);
-
+        return redirect()->route('employees.index')->with('message', 'Employee added successfully.');
     }
 
-    // destroy data employee per id
-    public function destroy($id)
+    
+    public function edit($id)
     {
-        Employee::destroy($id);
-        return response()->json(['messsage' => 'Employee data has been successfully deleted']);
+        $employee = Employee::findOrFail($id);
+        return view('employees.create', compact('employee'));
     }
 
-    // update data employee berdasarkan id
-    public function update(Request $request, $id) {
-
-        // validasi input
+    
+    public function update(Request $request, $id)
+    {
         $request->validate([
             'name_employee' => 'required|string|max:100',
             'age' => 'required|integer',
@@ -55,25 +52,16 @@ class EmployeeController extends Controller
             'salary' => 'required|numeric|min:0'
         ]);
 
-        // cari employee berdasarkan id
-        $employee = Employee::find($id);
-        if(!$employee) {
-            return response()->json([
-                'messsage' => 'Data not found',
-            ], 404);
-        }
+        $employee = Employee::findOrFail($id);
+        $employee->update($request->all());
 
-        // update data employee
-        $employee->update([
-            'name_employee' => $request->name_employee,
-            'age' => $request->age,
-            'position' => $request->position,
-            'salary' => $request->salary,
-        ]);
+        return redirect()->route('employees.index')->with('message', 'Employee updated successfully.');
+    }
 
-        return response()->json([
-            'messsage' => 'Employee data updated successfully',
-            'Employee' => $employee,
-        ],200);
+    
+    public function destroy($id)
+    {
+        Employee::destroy($id);
+        return redirect()->route('employees.index')->with('message', 'Employee deleted successfully.');
     }
 }

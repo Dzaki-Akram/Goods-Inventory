@@ -3,74 +3,104 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use GuzzleHttp\Handler\Proxy;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    // fetch data
+    
     public function index()
     {
-        return response()->json(Product::all());
+        $products = Product::all();
+
+        
+        if (request()->wantsJson()) {
+            return response()->json($products);
+        }
+
+        
+        return view('products.index', compact('products'));
     }
 
-    // store penyimpanan data poduct
+    
+    public function create()
+    {
+        return view('products.create');
+    }
+
+    
     public function store(Request $request)
     {
         $request->validate([
             'name_product' => 'required|string|max:100',
             'quantity' => 'required|numeric|min:0',
             'price' => 'required|numeric|min:0'
-    ]);
+        ]);
 
-    $product = Product::create([
-        'name_product' => $request->name_product,
-        'quantity' => $request->quantity,
-        'price' => $request->price,
-    ]);
+        $product = Product::create($request->only(['name_product', 'quantity', 'price']));
 
-    return response()->json([
-        'Message' => 'Product data saved successfully',
-        'Product' => $product
-    ], 201);
+        
+        if ($request->wantsJson()) {
+            return response()->json([
+                'message' => 'Product data saved successfully',
+                'product' => $product
+            ], 201);
+        }
 
+        
+        return redirect()->route('products.index')->with('message', 'Product added successfully.');
     }
 
-    // destroy data product per id
-    public function destroy($id)
+    
+    public function edit($id)
     {
-        Product::destroy($id);
-        return response()->json(['messsage' => 'Product data has been successfully deleted']);
+        $product = Product::findOrFail($id);
+        return view('products.edit', compact('product'));
     }
 
-    // update data product berdasarkan id
-    public function update(Request $request, $id) {
-
-        // validasi input
+    
+    public function update(Request $request, $id)
+    {
         $request->validate([
             'name_product' => 'required|string|max:100',
             'quantity' => 'required|numeric|min:0',
             'price' => 'required|numeric|min:0'
         ]);
 
-        // cari product berdasarkan id
         $product = Product::find($id);
-        if(!$product) {
-            return response()->json([
-                'messsage' => 'Data not found',
-            ], 404);
+        if (!$product) {
+            return response()->json(['message' => 'Product not found'], 404);
         }
 
-        // update data product
-        $product->update([
-            'name_product' => $request->name_product,
-        'quantity' => $request->quantity,
-        'price' => $request->price,
-        ]);
+        $product->update($request->only(['name_product', 'quantity', 'price']));
 
-        return response()->json([
-            'messsage' => 'Product data updated successfully',
-            'Product' => $product,
-        ],200);
+        
+        if ($request->wantsJson()) {
+            return response()->json([
+                'message' => 'Product data updated successfully',
+                'product' => $product,
+            ], 200);
+        }
+
+        
+        return redirect()->route('products.index')->with('message', 'Product updated successfully.');
+    }
+
+    
+    public function destroy($id)
+    {
+        $product = Product::find($id);
+        if (!$product) {
+            return response()->json(['message' => 'Product not found'], 404);
+        }
+
+        $product->delete();
+
+        
+        if (request()->wantsJson()) {
+            return response()->json(['message' => 'Product data has been successfully deleted']);
+        }
+
+        // Jika request dari web, redirect ke daftar produk
+        return redirect()->route('products.index')->with('message', 'Product deleted successfully.');
     }
 }
