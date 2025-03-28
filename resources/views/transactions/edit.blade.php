@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: rgb(37, 86, 139);">
     <div class="container">
         <a class="navbar-brand" href="/">Goods Inventory</a>
@@ -21,24 +20,15 @@
 <div class="container mt-0 pt-2">
     <h2 class="mb-4">Edit Transaction</h2>
 
-    <!-- 
-        Pastikan di Controller:
-        public function edit($id)
-        {
-            $transaction = Transaction::findOrFail($id);
-            return view('transactions.edit', compact('transaction'));
-        }
-    -->
     @if(session('message'))
     <div class="alert alert-success">{{ session('message') }}</div>
     @endif
 
-    <!-- Form Update -->
+
     <form action="{{ route('transactions.update', $transaction->id) }}" method="POST">
         @csrf
         @method('PUT')
 
-        <!-- Transaction Date -->
         <div class="mb-3">
             <label for="transaction_date" class="form-label">Transaction Date</label>
             <input
@@ -53,7 +43,6 @@
             @enderror
         </div>
 
-        <!-- Total -->
         <div class="mb-3">
             <label for="total" class="form-label">Total</label>
             <input

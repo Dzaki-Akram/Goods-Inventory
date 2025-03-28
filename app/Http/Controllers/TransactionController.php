@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {
-    // 1. Tampilkan daftar transaksi
+
     public function index()
     {
         $transactions = Transaction::all();
@@ -19,13 +19,12 @@ class TransactionController extends Controller
 
         return view('transactions.index', compact('transactions'));
     }
-    // 2. Form buat transaksi baru
+
     public function create()
     {
         return view('transactions.create');
     }
 
-    // 3. Simpan transaksi baru
     public function store(Request $request)
     {
         $request->validate([
@@ -42,14 +41,13 @@ class TransactionController extends Controller
             ->with('message', 'Transaction created successfully!');
     }
 
-    // 4. Tampilkan form edit
+
     public function edit($id)
     {
         $transaction = Transaction::findOrFail($id);
         return view('transactions.edit', compact('transaction'));
     }
 
-    // 5. Update transaksi
     public function update(Request $request, Transaction $transaction)
     {
         $request->validate([
@@ -66,7 +64,6 @@ class TransactionController extends Controller
             ->with('message', 'Transaction updated successfully!');
     }
 
-    // 6. Hapus transaksi
     public function destroy(Transaction $transaction)
     {
         $transaction->delete();

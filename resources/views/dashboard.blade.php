@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: rgb(37, 86, 139);">
     <div class="container">
         <a class="navbar-brand" href="/">Goods Inventory</a>
@@ -32,16 +31,12 @@
     </div>
 </nav>
 
-<!-- Konten Dashboard, dengan margin-top & padding-top untuk memberi ruang setelah navbar -->
 <div class="container mt-5 pt-5">
-    <!-- Banner Welcome -->
     <div class="card p-4 mb-4 shadow" style="border-radius: 1rem; background-color: #f8f9fa;">
         <div class="row align-items-center">
-            <!-- Gambar / Ikon di Kiri -->
             <div class="col-md-3 text-center">
                 <i class="bi bi-box-seam" style="font-size: 5rem; color: rgb(37, 86, 139);"></i>
             </div>
-            <!-- Teks Welcome di Kanan -->
             <div class="col-md-9">
                 <h2 class="fw-bold mb-2" style="color: rgb(37, 86, 139);">
                     Welcome to Goods Inventory
@@ -53,9 +48,7 @@
         </div>
     </div>
 
-    <!-- Bagian Card Fitur -->
     <div class="row">
-        <!-- Fitur 1: Employees -->
         <div class="col-md-4 mb-3">
             <div class="card" style="background-color: rgb(37, 86, 139); color: #f4f4f4;">
                 <div class="card-body">
@@ -73,7 +66,6 @@
             </div>
         </div>
 
-        <!-- Fitur 2: Products -->
         <div class="col-md-4 mb-3">
             <div class="card" style="background-color: rgb(37, 86, 139); color: #f4f4f4;">
                 <div class="card-body">
@@ -91,7 +83,6 @@
             </div>
         </div>
 
-        <!-- Fitur 3: Transaction -->
         <div class="col-md-4 mb-3">
             <div class="card" style="background-color: rgb(37, 86, 139); color: #f4f4f4;">
                 <div class="card-body">
@@ -110,16 +101,12 @@
         </div>
     </div>
 
-    <!-- Bagian Statistik dan Tabel Produk Baru -->
     <div class="row mt-4">
-        <!-- Chart Purchase & Sales (Stacked Bar) -->
         <div class="col-md-8 mb-3">
             <div class="card shadow">
-                <!-- Header card dengan warna biru (navbar) -->
                 <div class="card-header d-flex justify-content-between align-items-center"
                     style="background-color: rgb(37, 86, 139); color: #fff;">
                     <h5 class="mb-0">Purchase & Sales</h5>
-                    <!-- Dropdown tahun (opsional) -->
                     <div>
                         <select class="form-select form-select-sm">
                             <option value="2022" selected>2022</option>
@@ -129,13 +116,11 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <!-- Canvas untuk Chart -->
                     <canvas id="myChart" height="110"></canvas>
                 </div>
             </div>
         </div>
 
-        <!-- Tabel Produk Terbaru (Kolom: No, Nama Produk, Harga) -->
         <div class="col-md-4 mb-3">
             <div class="card shadow">
                 <div class="card-header" style="background-color: rgb(37, 86, 139); color: #fff;">
@@ -171,19 +156,15 @@
     </div>
 </div>
 
-<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    // Stacked bar chart untuk Purchase & Sales
     const ctx = document.getElementById('myChart').getContext('2d');
 
-    // Contoh data; sesuaikan dengan kebutuhan Anda
     const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'];
-    const salesData = [40, 60, 50, 70, 65, 80, 55, 75]; // Sales: nilai positif (hijau)
-    const purchaseData = [-30, -45, -35, -50, -40, -60, -45, -55]; // Purchase: nilai negatif (merah)
+    const salesData = [40, 60, 50, 70, 65, 80, 55, 75];
+    const purchaseData = [-30, -45, -35, -50, -40, -60, -45, -55];
 
     const myChart = new Chart(ctx, {
         type: 'bar',
@@ -192,7 +173,7 @@
             datasets: [{
                     label: 'Purchase',
                     data: purchaseData,
-                    backgroundColor: 'rgba(244, 67, 54, 0.7)', // merah
+                    backgroundColor: 'rgba(244, 67, 54, 0.7)',
                     borderColor: 'rgba(244, 67, 54, 1)',
                     borderWidth: 1,
                     borderRadius: 3,
@@ -202,7 +183,7 @@
                 {
                     label: 'Sales',
                     data: salesData,
-                    backgroundColor: 'rgba(76, 175, 80, 0.7)', // hijau
+                    backgroundColor: 'rgba(76, 175, 80, 0.7)',
                     borderColor: 'rgba(76, 175, 80, 1)',
                     borderWidth: 1,
                     borderRadius: 3,

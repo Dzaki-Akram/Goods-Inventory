@@ -9,16 +9,12 @@ class ProductController extends Controller
 {
     public function index()
     {
-        // Ambil semua data produk untuk ditampilkan di tabel
         $products = Product::all();
 
-        // Hitung total produk (baris di tabel "products")
         $allProductsCount = Product::count();
 
-        // Hitung produk yang masih tersedia (quantity > 0)
         $availableProductsCount = Product::where('quantity', '>', 0)->count();
 
-        // Jika request dari API (JSON), kembalikan data JSON
         if (request()->wantsJson()) {
             return response()->json([
                 'products' => $products,
@@ -27,7 +23,6 @@ class ProductController extends Controller
             ]);
         }
 
-        // Jika request dari web (Blade), kembalikan view beserta data
         return view('products.index', compact('products', 'allProductsCount', 'availableProductsCount'));
     }
 

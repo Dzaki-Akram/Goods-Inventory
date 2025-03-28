@@ -37,7 +37,6 @@
 <div class="container">
     <h2 class="mb-4">Employee List</h2>
 
-    <!-- Wrapper untuk Add Employee & Search agar sejajar -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <a href="{{ route('employees.create') }}" class="btn" style="background-color: rgb(235, 237, 70); color: #000;">
             <i class="bi bi-plus-circle me-1"></i> Add Employee
@@ -89,8 +88,8 @@
         let table = document.getElementById("employeesTable");
         let rows = table.getElementsByTagName("tr");
 
-        for (let i = 1; i < rows.length; i++) { // Mulai dari 1 agar tidak mempengaruhi header tabel
-            let employeeName = rows[i].getElementsByTagName("td")[0]; // Kolom pertama (Name)
+        for (let i = 1; i < rows.length; i++) {
+            let employeeName = rows[i].getElementsByTagName("td")[0];
             if (employeeName) {
                 let nameValue = employeeName.textContent.toLowerCase();
                 if (nameValue.includes(input)) {

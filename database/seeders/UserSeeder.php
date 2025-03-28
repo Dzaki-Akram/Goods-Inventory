@@ -14,11 +14,10 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // Hapus data lama hanya untuk email yang digunakan dalam seeder
+
         User::where('email', 'admin@2025.com')->delete();
         User::where('email', 'manager@2025.com')->delete();
 
-        // User admin
         $admin = User::create([
             'name' => 'Admin',
             'email' => 'admin@2025.com',
@@ -26,7 +25,6 @@ class UserSeeder extends Seeder
         ]);
         $admin->assignRole('Admin');
 
-        // Contoh user biasa
         $user = User::create([
             'name' => 'Manager',
             'email' => 'manager@2025.com',

@@ -10,10 +10,9 @@ class RoleSeeder extends Seeder
 {
     public function run(): void
     {
-        // Daftar role
+
         $roles = ['admin', 'user'];
 
-        // Daftar permission
         $permissions = [
             'create product',
             'edit product',
@@ -21,17 +20,17 @@ class RoleSeeder extends Seeder
             'view product',
         ];
 
-        // Buat role jika belum ada
+
         foreach ($roles as $roleName) {
             Role::firstOrCreate(['name' => $roleName]);
         }
 
-        // Buat permission jika belum ada
+
         foreach ($permissions as $permissionName) {
             Permission::firstOrCreate(['name' => $permissionName]);
         }
 
-        // Assign permission ke role
+
         $adminRole = Role::where('name', 'admin')->first();
         $userRole = Role::where('name', 'user')->first();
 

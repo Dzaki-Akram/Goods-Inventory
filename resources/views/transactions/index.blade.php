@@ -48,7 +48,6 @@
     <div class="alert alert-success">{{ session('message') }}</div>
     @endif
 
-    <!-- Tabel Daftar Transactions -->
     <table class="table table-bordered">
         <thead>
             <tr>

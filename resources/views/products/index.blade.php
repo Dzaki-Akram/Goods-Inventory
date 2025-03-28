@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: rgb(37, 86, 139);">
     <div class="container">
         <a class="navbar-brand" href="/">Goods Inventory</a>
@@ -34,17 +33,14 @@
 <hr>
 <br>
 
-<!-- Main Container -->
+
 <div class="container mt-0 pt-2">
-    <!-- Top Cards Row -->
     <div class="row mb-3">
-        <!-- Card 1: Products -->
         <div class="col-md-6 mb-3">
             <div class="card shadow h-100">
                 <div class="card-body">
                     <h5 class="card-title text-center">Products</h5>
                     <div class="row">
-                        <!-- Small Card: All Products -->
                         <div class="col-6 mb-2">
                             <div class="card text-center" style="background-color: #f8f9fa;">
                                 <div class="card-body">
@@ -53,7 +49,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Small Card: Available Products -->
                         <div class="col-6 mb-2">
                             <div class="card text-center" style="background-color: #f8f9fa;">
                                 <div class="card-body">
@@ -62,38 +57,32 @@
                                 </div>
                             </div>
                         </div>
-                    </div> <!-- end row -->
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Card 2: Product Distribution (Pie Chart) -->
+
         <div class="col-md-6 mb-3">
             <div class="card shadow h-100">
                 <div class="card-body text-center">
                     <h5 class="card-title">Product Type</h5>
                     <div class="d-flex justify-content-center">
-                        <!-- Canvas remains 150 x 150 -->
                         <canvas id="productPieChart" width="150" height="150"></canvas>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Product List Header -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Product List</h2>
     </div>
-    <!-- Add Product Button & Search -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <a href="{{ route('products.create') }}" class="btn" style="background-color: rgb(235, 237, 70); color: #000;">
             <i class="bi bi-plus-circle me-1"></i> Add Product
         </a>
         <div class="d-flex">
-            <!-- onkeyup triggers search automatically -->
             <input type="text" id="searchInput" class="form-control w-auto me-2" placeholder="Search product..." onkeyup="searchProduct()">
-            <!-- Search button remains -->
             <button class="btn btn-success" onclick="searchProduct()">Search</button>
         </div>
     </div>
@@ -102,7 +91,6 @@
     <div class="alert alert-success">{{ session('message') }}</div>
     @endif
 
-    <!-- Product List Table -->
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -135,7 +123,6 @@
     </table>
 </div>
 
-<!-- Product Search Script -->
 <script>
     function searchProduct() {
         let input = document.getElementById("searchInput").value.toLowerCase();
@@ -148,7 +135,6 @@
     }
 </script>
 
-<!-- Chart.js for Pie Chart -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     const ctxPie = document.getElementById('productPieChart').getContext('2d');
@@ -176,7 +162,7 @@
             maintainAspectRatio: false,
             plugins: {
                 legend: {
-                    position: 'right', // Legend appears on the right side
+                    position: 'right',
                     labels: {
                         boxWidth: 20,
                         padding: 10

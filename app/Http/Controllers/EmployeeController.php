@@ -7,20 +7,20 @@ use App\Models\Employee;
 
 class EmployeeController extends Controller
 {
-    
+
     public function index()
     {
         $employees = Employee::all();
         return view('employees.index', compact('employees'));
     }
 
-    
+
     public function create()
     {
         return view('employees.create');
     }
 
-    
+
     public function store(Request $request)
     {
         $request->validate([
@@ -35,14 +35,14 @@ class EmployeeController extends Controller
         return redirect()->route('employees.index')->with('message', 'Employee added successfully.');
     }
 
-    
+
     public function edit($id)
     {
         $employee = Employee::findOrFail($id);
         return view('employees.create', compact('employee'));
     }
 
-    
+
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -58,7 +58,7 @@ class EmployeeController extends Controller
         return redirect()->route('employees.index')->with('message', 'Employee updated successfully.');
     }
 
-    
+
     public function destroy($id)
     {
         Employee::destroy($id);

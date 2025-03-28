@@ -7,25 +7,25 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TransactionController;
 
-// Halaman utama diarahkan ke halaman login sementara
+
 Route::get('/', function () {
     return redirect()->route('login.form');
 });
 
-// Routes untuk login
+// Routes  login
 Route::get('/login', [AuthController::class, 'showLoginForm'])
     ->name('login.form')
     ->middleware('guest');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Group middleware 'auth' untuk membatasi akses setelah login
+// membatasi akses setelah login
 Route::middleware('auth')->group(function () {
 
-    // Route untuk Dashboard
+    // Route  Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    // Routes untuk Employees
+    // Routes Employees
     Route::prefix('employees')->group(function () {
         Route::get('/', [EmployeeController::class, 'index'])->name('employees.index');
         Route::get('/create', [EmployeeController::class, 'create'])->name('employees.create');
@@ -35,7 +35,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{id}', [EmployeeController::class, 'destroy'])->name('employees.destroy');
     });
 
-    // Routes untuk Products
+    // Routes Products
     Route::prefix('products')->group(function () {
         Route::get('/', [ProductController::class, 'index'])->name('products.index');
         Route::get('/create', [ProductController::class, 'create'])->name('products.create');
@@ -45,7 +45,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
     });
 
-    // Routes untuk Transactions
+    // Routes Transactions
     Route::prefix('transactions')->group(function () {
         Route::get('/', [TransactionController::class, 'index'])->name('transactions.index');
         Route::get('/create', [TransactionController::class, 'create'])->name('transactions.create');
