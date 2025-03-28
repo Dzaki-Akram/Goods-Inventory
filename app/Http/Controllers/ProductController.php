@@ -7,38 +7,40 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    
     public function index()
     {
         $products = Product::all();
 
-        
+        $allProductsCount = Product::count();
+
+        $availableProductsCount = Product::where('quantity', '>', 0)->count();
+
         if (request()->wantsJson()) {
-            return response()->json($products);
+            return response()->json([
+                'products' => $products,
+                'allProductsCount' => $allProductsCount,
+                'availableProductsCount' => $availableProductsCount,
+            ]);
         }
 
-        
-        return view('products.index', compact('products'));
+        return view('products.index', compact('products', 'allProductsCount', 'availableProductsCount'));
     }
 
-    
     public function create()
     {
         return view('products.create');
     }
 
-    
     public function store(Request $request)
     {
         $request->validate([
             'name_product' => 'required|string|max:100',
-            'quantity' => 'required|numeric|min:0',
-            'price' => 'required|numeric|min:0'
+            'quantity'     => 'required|numeric|min:0',
+            'price'        => 'required|numeric|min:0'
         ]);
 
         $product = Product::create($request->only(['name_product', 'quantity', 'price']));
 
-        
         if ($request->wantsJson()) {
             return response()->json([
                 'message' => 'Product data saved successfully',
@@ -46,24 +48,21 @@ class ProductController extends Controller
             ], 201);
         }
 
-        
         return redirect()->route('products.index')->with('message', 'Product added successfully.');
     }
 
-    
     public function edit($id)
     {
         $product = Product::findOrFail($id);
         return view('products.edit', compact('product'));
     }
 
-    
     public function update(Request $request, $id)
     {
         $request->validate([
             'name_product' => 'required|string|max:100',
-            'quantity' => 'required|numeric|min:0',
-            'price' => 'required|numeric|min:0'
+            'quantity'     => 'required|numeric|min:0',
+            'price'        => 'required|numeric|min:0'
         ]);
 
         $product = Product::find($id);
@@ -73,7 +72,6 @@ class ProductController extends Controller
 
         $product->update($request->only(['name_product', 'quantity', 'price']));
 
-        
         if ($request->wantsJson()) {
             return response()->json([
                 'message' => 'Product data updated successfully',
@@ -81,11 +79,9 @@ class ProductController extends Controller
             ], 200);
         }
 
-        
         return redirect()->route('products.index')->with('message', 'Product updated successfully.');
     }
 
-    
     public function destroy($id)
     {
         $product = Product::find($id);
@@ -95,12 +91,10 @@ class ProductController extends Controller
 
         $product->delete();
 
-        
         if (request()->wantsJson()) {
             return response()->json(['message' => 'Product data has been successfully deleted']);
         }
 
-        // Jika request dari web, redirect ke daftar produk
         return redirect()->route('products.index')->with('message', 'Product deleted successfully.');
     }
 }
